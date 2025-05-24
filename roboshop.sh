@@ -15,7 +15,7 @@ do
     if [ $INSTANCES -ne frontend ]
     then
         IP=aws ec2 descripe-instances --instance-ids $INSTANCE_ID --query "Instances[0].PrivateIpAddress" \--output text
-        echo "$INSTANCE_ID"
+        echo "the instance was $INSTANCE_ID"
     else
         IP=aws ec2 descripe-instances --instance-ids $INSTANCE_ID --query "Instances[0].PublicIpAddress" \--output text
     fi
