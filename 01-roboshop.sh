@@ -11,6 +11,7 @@ DOMAIN_Name="devsecopstrainee.site"
 for instance in $@ #dynamically at the time of running the script we have to pass the arguments to install
 do
     #creating instance through cli
+    echo "Script stated at $(date)"
     INSTANCE_ID=$(aws ec2 run-instances --image-id ami-09c813fb71547fc4f --instance-type t3.micro --security-group-ids sg-0e357cdf3695bf2f9 --tag-specifications "ResourceType=instance,Tags=[{Key=Name, Value=$instance}]" --query "Instances[0].InstanceId" --output text)
     if [ $INSTANCES != "frontend" ]
     then
