@@ -20,7 +20,7 @@ do
     else
         IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Instances[0].PublicIpAddress" --output text)
     fi
-    echo "$INSTANCE_ID ip address is $IP"
+    echo "$instance ip address is $IP"
 done
 
 
