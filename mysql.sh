@@ -14,6 +14,7 @@ ZONE_ID="Z0748101MT6SJ25GGSYP"
 DOMAIN_Name="devsecopstrainee.site"
 
 mkdir -p $LOG_FOLDER    #-p will check whether dir is there or not, if it not exits it will create the folder.
+START_TIME=$(date +%s)
 echo "Script started executing at: $(date)" | tee -a $LOG_FILE
 
 if [ $USERID -ne 0 ]
@@ -45,7 +46,7 @@ systemctl enable mysqld
 VALIDATE $? "enabling mysql"
 
 systemctl start mysqld
-VALIDATE $? "stating mysql"
+VALIDATE $? "stating mysql" 
 
 mysql_secure_installation --set-root-pass $MYSQL_ROOT_PASSWORD &>>LOG_FILE
 VALIDATE $? "setting mysql password"
