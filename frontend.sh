@@ -25,6 +25,17 @@ else
     echo -e "$G Root access granted please proceed $N"
 fi
 
+# validate functions takes input as exit status, what command they tried to install
+VALIDATE(){
+    if [ $1 -ne 0 ]
+    then
+        echo -e "$R ERROR : $2 was failed $N"
+        exit 1
+    else
+        echo -e "$G $2 was successful $N"
+    fi
+}
+
 dnf module list nginx -y $>> $LOG_FILE
 
 dnf module disable nginx -y
