@@ -15,14 +15,30 @@ do
     if [ $instance != "frontend" ]
     then
         IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PrivateIpAddress" --output text)
+        RECORD_NAME=$instance.$DOMAIN_Name
         
     else
         IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
+        RECORD_NAME=$DOMAIN_Name
     fi
     echo "$instance ip address is $IP"
+
+    aws route53 change-resource-record-sets \
+    --hosted-zone-id $ZONE_ID \
+    --change-batch '
+    {
+        "Comment": "Creating or Updating a record set for cognito endpoint"
+        ,"Changes": [{
+        "Action"              : "UPSERT"
+        ,"ResourceRecordSet"  : {
+            "Name"              : "'$RECORD_NAME'"
+            ,"Type"             : "A"
+            ,"TTL"              : 1
+            ,"ResourceRecords"  : [{
+                "Value"         : "'$IP'"
+            }]
+        }
+        }]
+    }'
+
 done
-
-
-#In the above logic we are creating instance at line 15 with diffrent names mentioned at line 5
-#if it is not front end as we mentioned condition at line 16, we will take its private ip and we will print at line 23
-#if its a frontend instance we will take its public ip and we will print.
