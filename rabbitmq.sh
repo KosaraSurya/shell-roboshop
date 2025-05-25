@@ -7,7 +7,7 @@ N="\e[0m"
 LOG_FOLDER="/var/log/shellpractice"
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
 LOG_FILE="$LOG_FOLDER/$SCRIPT_NAME.log"
-
+SCRIPT_DIR=$PWD
 
 mkdir -p $LOG_FOLDER    #-p will check whether dir is there or not, if it not exits it will create the folder.
 echo "Script started executing at: $(date)" | tee -a $LOG_FILE
@@ -17,8 +17,11 @@ then
     echo -e "$R ERROR : Please process with root access $N"
     exit 1
 else
-    echo -e "$G access granted please proceed $N"
+    echo -e "$G Root access granted please proceed $N"
 fi
+
+echo "Please enter rabbitmq password to setup"
+read -s RABBITMQ_PASSWD
 
 # validate functions takes input as exit status, what command they tried to install
 VALIDATE(){
@@ -31,17 +34,18 @@ VALIDATE(){
     fi
 }
 
-cp mongo.repo /etc/yum.repos.d/mongo.repo | tee -a $LOG_FILE
-VALIDATE $? "copying repo data"
+cp $SCRIPT_DIR/rabbitmq.repo /etc/yum.repos.d/rabbitmq.repo &>>$LOG_FILE
+VALIDATE $? "Adding rabbitmq repo"
 
-dnf install mongodb-org -y &>>$LOG_FILE
-VALIDATE $? "installing mongodb"
+dnf install rabbitmq-server -y &>>$LOG_FILE
+VALIDATE $? "installing rabbitmq"
 
-systemctl enable mongod
-systemctl start mongod &>>$LOG_FILE
-VALIDATE $? "starting mongodb"
+systemctl enable rabbitmq-server
+VALIDATE $? "enabling rabbitmq"
 
-sed -i "s/127.0.0.1/0.0.0.0/g" /etc/mongod.conf
-VALIDATE $? "modifying file for allowing remote connections"
+systemctl start rabbitmq-server
+VALIDATE $? "starting rabbitmq"
 
-systemctl restart mongod &>>$LOG_FILE
+rabbitmqctl add_user roboshop $RABBITMQ_PASSWD &>>$LOG_FILE
+rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
+
