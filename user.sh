@@ -57,12 +57,12 @@ fi
 mkdir -p /app
 
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
-VALIDATE $? "Downloading catalogue"
+VALIDATE $? "Downloading user"
 
 rm -rf /app/*
 cd /app 
-unzip /tmp/user.zip
-VALIDATE $? "Un-Zipping USER"
+unzip /tmp/user.zip &>>$LOG_FILE
+VALIDATE $? "unzipping user"
 
 cd /app 
 npm install &>>$LOG_FILE
