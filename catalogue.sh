@@ -42,7 +42,7 @@ VALIDATE $? "Disabling default version of nodejs"
 dnf module enable nodejs:20 -y
 VALIDATE $? "ebaling 20version of nodejs"
 
-dnf install nodejs -y
+dnf install nodejs -y &>>$LOG_FILE
 VALIDATE $? "Downloading nodejs"
 
 id roboshop
@@ -65,7 +65,7 @@ unzip /tmp/catalogue.zip
 VALIDATE $? "Un-Zipping catalogue"
 
 cd /app 
-npm install
+npm install &>>$LOG_FILE
 VALIDATE $? "installing dependencies"
 
 cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
@@ -78,13 +78,14 @@ VALIDATE $? "catalogue started"
 
 cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
 
-dnf install mongodb-mongosh -y
+dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "installing mongodb client"
 
 STATUS=$(mongosh --host mongodb.daws84s.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
-if [ $STATUS -ne 0]
+if [ $STATUS -lt 0]
 then
     mongosh --host mongodb.devsecopstrainee.site </app/db/master-data.js
+    VALIDATE $? "loading master data"
 else 
     echo -e "$G master data was already loaded $N"
 fi
