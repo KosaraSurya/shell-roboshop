@@ -56,7 +56,7 @@ fi
 
 mkdir -p /app
 
-curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
+curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
 VALIDATE $? "Downloading user"
 
 rm -rf /app/*
