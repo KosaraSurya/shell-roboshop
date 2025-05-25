@@ -7,6 +7,7 @@ ZONE_ID="Z0748101MT6SJ25GGSYP"
 DOMAIN_Name="devsecopstrainee.site"
 
 #for INSTANCES in ${INSTANCES[@]}  #it will take from the declared INSTANCES array
+#for instance in ${INSTANCES[@]}
 for instance in $@ #dynamically at the time of running the script we have to pass the arguments to install
 do
     #creating instance through cli
