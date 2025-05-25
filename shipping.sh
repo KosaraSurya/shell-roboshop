@@ -73,9 +73,9 @@ dnf install mysql -y
 mysql -h mysql.devsecopstrainee.site -u root -p$MYSQL_ROOT_PASSWORD -e 'use cities' &>>$LOG_FILE
 if [ $? -ne 0 ]
 then
-    mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -p$MYSQL_ROOT_PASSWORD < /app/db/schema.sql
-    mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -p$MYSQL_ROOT_PASSWORD < /app/db/app-user.sql
-    mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -p$MYSQL_ROOT_PASSWORD < /app/db/master-data.sql
+    mysql -h mysql.devsecopstrainee.site -uroot -p$MYSQL_ROOT_PASSWORD < /app/db/schema.sql
+    mysql -h mysql.devsecopstrainee.site -uroot -p$MYSQL_ROOT_PASSWORD < /app/db/app-user.sql
+    mysql -h mysql.devsecopstrainee.site -uroot -p$MYSQL_ROOT_PASSWORD < /app/db/master-data.sql
     VALIDATE $? "Loading data into MySQL"
     
 else
