@@ -36,7 +36,7 @@ VALIDATE(){
     fi
 }
 
-dnf module disable nodejs
+dnf module disable nodejs -y
 VALIDATE $? "Disabling default version of nodejs"
 
 dnf module enable nodejs:20 -y
@@ -87,3 +87,4 @@ then
     mongosh --host mongodb.devsecopstrainee.site </app/db/master-data.js
 else 
     echo -e "$G master data was already loaded $N"
+fi
