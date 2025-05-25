@@ -7,11 +7,7 @@ N="\e[0m"
 LOG_FOLDER="/var/log/shellpractice"
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
 LOG_FILE="$LOG_FOLDER/$SCRIPT_NAME.log"
-AMI_ID="ami-09c813fb71547fc4f"
-SG_ID="sg-0e357cdf3695bf2f9"
-INSTANCES=("mongodb" "redis" "mysql" "rabbitmq" "catalogue" "user" "cart" "shipping" "payment" "dispatch" "frontend")
-ZONE_ID="Z0748101MT6SJ25GGSYP"
-DOMAIN_Name="devsecopstrainee.site"
+SCRIPT_DIR=$PWD
 
 mkdir -p $LOG_FOLDER    #-p will check whether dir is there or not, if it not exits it will create the folder.
 
