@@ -25,7 +25,7 @@ else
 fi
 
 # validate functions takes input as exit status, what command they tried to install
-Validate(){
+VALIDATE(){
     if [ $1 -ne 0 ]
     then
         echo -e "$R ERROR : $2 was failed $N"
@@ -36,7 +36,7 @@ Validate(){
 }
 
 cp mongo.repo /etc/yum.repos.d/mongo.repo | tee -a $LOG_FILE
-validate $? "copying repo data"
+VALIDATE $? "copying repo data"
 
 dnf install mongodb-org -y &>>$LOG_FILE
 VALIDATE $? "installing mongodb"
