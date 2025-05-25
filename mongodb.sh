@@ -35,7 +35,7 @@ Validate(){
     fi
 }
 
-cp monogo.repo /etc/yum.repos.d/mongo.repo | tee -a $LOG_FILE
+cp mongo.repo /etc/yum.repos.d/mongo.repo | tee -a $LOG_FILE
 validate $? "copying repo data"
 
 dnf install mongodb-org -y &>>$LOG_FILE
