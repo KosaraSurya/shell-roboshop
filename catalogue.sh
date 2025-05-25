@@ -22,7 +22,7 @@ then
     echo -e "$R ERROR : Please process with root access $N"
     exit 1
 else
-    echo -e "$G access granted please proceed $N"
+    echo -e "$G Root access granted please proceed $N"
 fi
 
 # validate functions takes input as exit status, what command they tried to install
@@ -39,7 +39,7 @@ VALIDATE(){
 dnf module disable nodejs
 VALIDATE $? "Disabling default version of nodejs"
 
-dnf enable module nodejs:20 -y
+dnf module enable nodejs:20 -y
 VALIDATE $? "ebaling 20version of nodejs"
 
 dnf install nodejs -y
